@@ -1,20 +1,59 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-vision-camera-object-detection';
+import { useCallback, useEffect, useState } from 'react';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+  useFrameProcessor,
+  type Frame,
+} from 'react-native-vision-camera';
 
-const result = multiply(3, 7);
+export default function App(): React.ReactElement {
+  const [position, setPosition] = useState<'front' | 'back'>('front');
+  const device = useCameraDevice(position);
+  const { hasPermission, requestPermission } = useCameraPermission();
 
-export default function App() {
+  useEffect(() => {
+    if (!hasPermission) {
+      requestPermission();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const flipCamera = useCallback(() => {
+    setPosition((p) => (p === 'back' ? 'front' : 'back'));
+  }, []);
+
+  const frameProcessor = useFrameProcessor((_: Frame) => {
+    'worklet';
+
+    console.log('Frame Processor');
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <SafeAreaView style={styles.container} onTouchEnd={flipCamera}>
+      {!hasPermission && <Text style={styles.text}>No Camera Permission.</Text>}
+      {hasPermission && device != null && (
+        <Camera
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={true}
+          frameProcessor={frameProcessor}
+        />
+      )}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
   },
 });
