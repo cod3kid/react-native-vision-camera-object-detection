@@ -1,5 +1,9 @@
-import VisionCameraObjectDetection from './NativeVisionCameraObjectDetection';
+import { useMemo } from 'react';
+import { createObjectDetectionPlugin } from './detectObjects';
+import type { ObjectDetectionOptions, ObjectDetectionPlugin } from './types';
 
-export function multiply(a: number, b: number): number {
-  return VisionCameraObjectDetection.multiply(a, b);
+export function useObjectDetection(
+  options?: ObjectDetectionOptions
+): ObjectDetectionPlugin {
+  return useMemo(() => createObjectDetectionPlugin(options), [options]);
 }

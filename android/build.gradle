@@ -100,6 +100,8 @@ def kotlin_version = getExtOrDefault("kotlinVersion")
 dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation 'com.google.mlkit:object-detection:17.0.2'
+  implementation project(":react-native-vision-camera")
 }
 
 if (isNewArchitectureEnabled()) {
