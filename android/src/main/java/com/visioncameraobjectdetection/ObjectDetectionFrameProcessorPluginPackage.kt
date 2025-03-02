@@ -5,7 +5,6 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 import com.mrousavy.camera.frameprocessors.FrameProcessorPluginRegistry
-import com.visioncameraobjectdetection.objectdetectionframeprocessor.ObjectDetectionFrameProcessorPlugin
 
 class ObjectDetectionFrameProcessorPluginPackage : ReactPackage {
   companion object {

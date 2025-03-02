@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { createObjectDetectionPlugin } from './detectObjects';
 import type { ObjectDetectionOptions, ObjectDetectionPlugin } from './types';
 
+export * from './types';
+
 export function useObjectDetection(
   options?: ObjectDetectionOptions
 ): ObjectDetectionPlugin {

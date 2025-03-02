@@ -1,7 +1,9 @@
 import type { Frame } from 'react-native-vision-camera';
 
 export type ObjectDetectionOptions = {
-  mode: 'single' | 'multi';
+  captureMode: 'image' | 'stream';
+  detectionType: 'single' | 'multi';
+  classifyObjects: boolean;
 };
 
 export type ObjectDetectionPlugin = {
