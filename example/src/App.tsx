@@ -7,13 +7,22 @@ import {
   useFrameProcessor,
   type Frame,
 } from 'react-native-vision-camera';
-import { useObjectDetection } from 'react-native-vision-camera-object-detection';
+import {
+  useObjectDetection,
+  type ObjectDetectionOptions,
+} from 'react-native-vision-camera-object-detection';
+
+const objectDetectionOptions: ObjectDetectionOptions = {
+  captureMode: 'stream',
+  detectionType: 'single',
+  classifyObjects: true,
+};
 
 export default function App(): React.ReactElement {
   const [position, setPosition] = useState<'front' | 'back'>('front');
   const device = useCameraDevice(position);
   const { hasPermission, requestPermission } = useCameraPermission();
-  const { detectObjects } = useObjectDetection();
+  const { detectObjects } = useObjectDetection(objectDetectionOptions);
 
   useEffect(() => {
     if (!hasPermission) {
@@ -29,7 +38,7 @@ export default function App(): React.ReactElement {
   const frameProcessor = useFrameProcessor((frame: Frame) => {
     'worklet';
     const data = detectObjects(frame);
-    console.log('data', data);
+    console.log('data', JSON.stringify(data[0]));
   }, []);
 
   return (
